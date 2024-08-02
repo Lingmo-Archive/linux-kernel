@@ -1,5 +1,5 @@
 pkgbase=linux
-pkgver=6.10.2-lingmo-1
+pkgver=6.10.2.lingmo.1
 pkgrel=1
 pkgdesc='Linux'
 url='https://github.com/LingmoOS/linux-kernel'
