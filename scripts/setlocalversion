@@ -1,0 +1,98 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0
+#
+# This scripts adds local version information from the version
+# control system git.
+#
+# If something goes wrong, send a mail the kernel build mailinglist
+# (see MAINTAINERS) and CC Nico Schottelius
+# <nico-linuxsetlocalversion -at- schottelius.org>.
+#
+#
+
+usage() {
+	echo "Usage: $0 [--no-local] [srctree]" >&2
+	exit 1
+}
+
+no_local=false
+if test "$1" = "--no-local"; then
+	no_local=true
+	shift
+fi
+
+srctree=.
+if test $# -gt 0; then
+	srctree=$1
+	shift
+fi
+if test $# -gt 0 -o ! -d "$srctree"; then
+	usage
+fi
+
+RELEASE="LingmoOS"
+
+release_version()
+{
+	echo "lingmo-(helium)"
+}
+
+collect_files()
+{
+	local file res=
+
+	for file; do
+		case "$file" in
+		*\~*)
+			continue
+			;;
+		esac
+		if test -e "$file"; then
+			res="$res$(cat "$file")"
+		fi
+	done
+	echo "$res"
+}
+
+if [ -z "${KERNELVERSION}" ]; then
+	echo "KERNELVERSION is not set" >&2
+	exit 1
+fi
+
+code_name="Helium"
+# localversion* files in the build and source directory
+file_localversion="$(collect_files localversion*)"
+if test ! "$srctree" -ef .; then
+	file_localversion="${file_localversion}$(collect_files "$srctree"/localversion*)"
+fi
+
+if ${no_local}; then
+	echo "${KERNELVERSION}$(scm_version --no-dirty)"
+	exit 0
+fi
+
+if ! test -e include/config/auto.conf; then
+	echo "Error: kernelrelease not valid - run 'make prepare' to update it" >&2
+	exit 1
+fi
+
+full_version="$RELEASE-($code_name)"
+# version string from CONFIG_LOCALVERSION
+config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
+
+# scm version string if not at the kernel version tag or at the file_localversion
+if grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
+	# full scm version string
+	scm_version="$(scm_version)"
+elif [ "${LOCALVERSION+set}" != "set" ]; then
+	# If the variable LOCALVERSION is not set, append a plus
+	# sign if the repository is not in a clean annotated or
+	# signed tagged state (as git describe only looks at signed
+	# or annotated tags - git tag -a/-s).
+	#
+	# If the variable LOCALVERSION is set (including being set
+	# to an empty string), we don't want to append a plus sign.
+	scm_version="$(scm_version --short)"
+fi
+
+echo "${KERNELVERSION}${file_localversion}${config_localversion}${full_version}"
