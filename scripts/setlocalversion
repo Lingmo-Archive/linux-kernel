@@ -76,7 +76,7 @@ if ! test -e include/config/auto.conf; then
 	exit 1
 fi
 
-full_version="-$RELEASE-$code_name"
+full_version="-$RELEASE$code_name"
 # version string from CONFIG_LOCALVERSION
 config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
 
