@@ -28,7 +28,7 @@ jobs:
         run: sudo apt update
 
       - name: Install base packages
-        run: sudo apt install -y sudo tree dctrl-tools devscripts wget git meson
+        run: sudo apt install -y sudo tree dctrl-tools devscripts wget git meson libarchive libarchive-dev gawk
 
       - name: Get build tools source code
         run: git clone https://github.com/LingmoOS/lpm
