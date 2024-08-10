@@ -5,7 +5,7 @@ pkgver=6.10.3.lingmo.2.9.0
 pkgrel=1
 pkgdesc='Linux'
 url='https://github.com/LingmoOS/linux-kernel'
-_srcdir=linux-kernel
+
 arch=(x86_64)
 license=(GPL-2.0-only)
 makedepends=(
@@ -30,7 +30,7 @@ options=(
   !debug
   !strip
 )
-_srcdir=linux-${pkgver%.*}
+_srcdir=linux-kernel
 _srctag=v${pkgver%.*}-${pkgver##*.}
 source=(
   git+$url
