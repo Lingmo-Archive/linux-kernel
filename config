@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.10.2-arch1 Kernel Configuration
+# Linux/x86 6.10.3-lingmo.2.9.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 14.1.1 20240720"
 CONFIG_CC_IS_GCC=y
@@ -47,7 +47,7 @@ CONFIG_HAVE_KERNEL_ZSTD=y
 # CONFIG_KERNEL_LZ4 is not set
 CONFIG_KERNEL_ZSTD=y
 CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="archlinux"
+CONFIG_DEFAULT_HOSTNAME="lingmo"
 CONFIG_SYSVIPC=y
 CONFIG_SYSVIPC_SYSCTL=y
 CONFIG_SYSVIPC_COMPAT=y
