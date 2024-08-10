@@ -1,0 +1,52 @@
+name: Build Linux Kernel
+
+permissions: write-all
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    name: Building Linux Kernel
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 4096
+          swap-size-mb: 512
+          remove-dotnet: 'true'
+          remove-android: 'true'
+
+      - uses: actions/checkout@v4
+
+      - name: Update source
+        run: sudo apt update
+
+      - name: Install base packages
+        run: sudo apt install -y sudo tree dctrl-tools devscripts wget git meson
+
+      - name: Get build tools source code
+        run: git clone https://github.com/LingmoOS/lpm
+
+      - name: Build Tools
+        run: |
+            cd lpm
+            meson build
+            ninja -C build
+            ninja -C build install
+      
+      - name: Update Sources
+        run: sudo lpm -Syyu
+
+      - name: install base tools
+        run: sudo lpm --overwrite "*" -S bc cpio gettext libelf pahole perl python tar xz graphviz imagemagick python-sphinx python-yaml textlive-latexextra
+
+      - name: Build Kernel
+        run: makepkg -f
+
+      
