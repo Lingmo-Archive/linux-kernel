@@ -28,7 +28,7 @@ jobs:
         run: sudo apt update
 
       - name: Install base packages
-        run: sudo apt install -y sudo tree dctrl-tools devscripts wget git meson libarchive libarchive-dev gawk
+        run: sudo apt install -y sudo tree dctrl-tools devscripts wget git meson libarchive-dev gawk
 
       - name: Get build tools source code
         run: git clone https://github.com/LingmoOS/lpm
@@ -49,4 +49,24 @@ jobs:
       - name: Build Kernel
         run: makepkg -f
 
-      
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: linux-6.10.3-lingmo-2.9.0-1
+      #     release_name: Linux 6.10.3.lingmo.2.9.0-1 Release
+      #     draft: false
+      #     prerelease: false
+          
+      # - name: Upload Release Asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ${{ github.workspace }}
+      #     asset_name: *.lpk
+      #     asset_content_type: application/zip
