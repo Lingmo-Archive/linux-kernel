@@ -5,6 +5,7 @@ pkgver=6.10.3.lingmo.2.9.0
 pkgrel=1
 pkgdesc='Linux'
 url='https://github.com/LingmoOS/linux-kernel'
+_srcdir=linux-kernel
 arch=(x86_64)
 license=(GPL-2.0-only)
 makedepends=(
@@ -29,7 +30,7 @@ options=(
   !debug
   !strip
 )
-_srcname=linux-${pkgver%.*}
+_srcdir=linux-${pkgver%.*}
 _srctag=v${pkgver%.*}-${pkgver##*.}
 source=(
   git+$url
@@ -52,7 +53,7 @@ export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
 prepare() {
-  cd $_srcname
+  cd $_srcdir
 
   echo "Setting version..."
   echo "-$pkgrel" > localversion.10-pkgrel
@@ -78,8 +79,8 @@ prepare() {
 }
 
 build() {
-  cd $_srcname
-  make all
+  cd $_srcdir
+  make -j20 all
   make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
   make htmldocs
 }
@@ -105,7 +106,7 @@ _package() {
     wireguard-arch
   )
 
-  cd $_srcname
+  cd $_srcdir
   local modulesdir="$pkgdir/usr/lib/modules/$(<version)"
 
   echo "Installing boot image..."
@@ -128,7 +129,7 @@ _package-headers() {
   pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
   depends=(pahole)
 
-  cd $_srcname
+  cd $_srcdir
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
 
   echo "Installing build files..."
@@ -209,7 +210,7 @@ _package-headers() {
 _package-docs() {
   pkgdesc="Documentation for the $pkgdesc kernel"
 
-  cd $_srcname
+  cd $_srcdir
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
 
   echo "Installing documentation..."
