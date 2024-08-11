@@ -42,6 +42,7 @@ jobs:
       
       - name: config
         run: |
+            sudo mkdir /etc/lpm/
             sudo cp lpm-source/* /etc/lpm/
             sudo cp scripts/lpm.conf /etc/
       
