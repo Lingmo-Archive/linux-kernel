@@ -38,7 +38,7 @@ jobs:
             cd lpm
             meson build
             ninja -C build
-            ninja -C build install
+            sudo ninja -C build install
       
       - name: Update Sources
         run: sudo lpm -Syyu
