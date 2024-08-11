@@ -40,6 +40,11 @@ jobs:
             ninja -C build
             sudo ninja -C build install
       
+      - name: config
+        run: |
+            sudo cp lpm-source/* /etc/lpm/
+            sudo cp scripts/lpm.conf /etc/
+      
       - name: Update Sources
         run: sudo lpm -Syyu
 
