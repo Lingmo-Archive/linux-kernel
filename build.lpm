@@ -1,7 +1,7 @@
 # Maintainer: Lingmo OS Team <team@lingmo.org>
 
 pkgbase=linux
-pkgver=6.10.3.lingmo.2.9.0
+pkgver=6.10.4.lingmo.2.9.0
 pkgrel=1
 pkgdesc='Linux'
 url='https://github.com/LingmoOS/linux-kernel'
