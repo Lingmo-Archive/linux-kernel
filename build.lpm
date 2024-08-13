@@ -34,7 +34,7 @@ _srcdir=linux-kernel
 _srctag=v${pkgver%.*}-${pkgver##*.}
 source=(
   git+$url
-  $url/releases/download/linux-6.10.3-lingmo-2.9.0/linux-6.10.3-lingmo.1.tar.xz
+  $url/releases/download/6.10.4-lingmo-2.9.0/linux-v6.10.4-lingmo-2.9.0.tar.xz
   config  # the main kernel config file
 )
 validpgpkeys=(
