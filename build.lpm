@@ -1,8 +1,9 @@
 # Maintainer: Lingmo OS Team <team@lingmo.org>
 
 pkgbase=linux
-pkgver=6.10.4.lingmo.2.9.0
+pkgver=6.10.4.lingmo
 pkgrel=1
+_os=lingmo
 pkgdesc='Linux'
 url='https://github.com/LingmoOS/linux-kernel'
 
@@ -30,10 +31,10 @@ options=(
   !debug
   !strip
 )
-_srcdir=linux-kernel
+_srcdir=linux-6.10.4
 _srctag=v${pkgver%.*}-${pkgver##*.}
 source=(
-  git+$url
+  https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.10.4.tar.xz
   $url/releases/download/6.10.4-lingmo-2.9.0/linux-v6.10.4-lingmo-2.9.0.tar.xz
   config  # the main kernel config file
 )
@@ -56,7 +57,7 @@ prepare() {
   cd $_srcdir
 
   echo "Setting version..."
-  echo "-$pkgrel" > localversion.10-pkgrel
+  echo "-$_os-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
 
   local src
